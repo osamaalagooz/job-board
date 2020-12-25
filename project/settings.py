@@ -25,12 +25,13 @@ SECRET_KEY = '^#e^%6rrrfd#fr4bdl(%u(j5$w3cjiq=4rs@v1o2&zyo+!39)!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,7 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # myApps
     'job',
+    "bootstrap4",
+    'django_filters',
+    'contact',
+    'ckeditor',
 ]
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -130,7 +137,8 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR/"media"
 
-# MEDIAFILES_DIRS = [
-#     BASE_DIR / "media",
-#     '/var/www/media/',
-# ]
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'osamass9000@gmail.com'
+EMAIL_HOST_PASSWORD = 'Robot9000'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
