@@ -10,6 +10,7 @@
             <div class="col-xl-12">
                 <div class="bradcam_text">
                     <h3>contact</h3>
+                    
                 </div>
             </div>
         </div>
@@ -17,9 +18,9 @@
 </div>
 <!--/ bradcam_area  -->
 <!-- ================ contact section start ================= -->
-<!-- <section class="contact-section section_padding">
-<div class="container">
-  <div class="d-none d-sm-block mb-5 pb-4">
+ <section class="contact-section section_padding">
+<div class="container"> 
+  <!-- <div class="d-none d-sm-block mb-5 pb-4">
     <div id="map" style="height: 480px;"></div>
     <script>
       function initMap() {
@@ -45,15 +46,15 @@
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&callback=initMap"></script>
     
-  </div> -->
+  </div>  -->
 
 
   <div class="row">
-    <div class="col-12">
+    <div class="col-12" id="title">
       <h2 class="contact-title">Get in Touch</h2>
     </div>
     <div class="col-lg-8">
-      <form class="form-contact contact_form"  method="post" >
+      <form class="form-contact contact_form"  method="post" style="margin: 10px;">
           {% csrf_token %}
         <div class="row">
           <div class="col-12">
@@ -74,8 +75,22 @@
             </div>
           </div>
         </div>
+        <div id='toast-message-success' class="alert alert-success alert-dismissible" role="alert" style="width: 300px; display: none;" >
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          Message successfully sent !
+          
+        </div>
+        <div id='toast-message-failed' class="alert alert-danger alert-dismissible" role="alert" style="width: 300px; display: none;" >
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          Oops, there is some thing wrong happened!
+          
+        </div>
+        <div id="loading-icon" style="text-align: center; display: none;">
+          <i class="fa fa-circle-o-notch fa-spin" style="font-size:30px; width: auto;"></i>
+        </div>
+        
         <div class="form-group mt-3">
-          <button type="submit" class="button button-contactForm btn_4 boxed-btn">Send Message</button>
+          <button type="submit" id = "send_btn" class="button button-contactForm btn_4 boxed-btn">Send Message</button>
         </div>
       </form>
     </div>
@@ -106,6 +121,72 @@
 </div>
 </section>
 <!-- ================ contact section end ================= -->
+  
+<script>
+  let btn = document.querySelector("#send_btn");
+  // let email = document.querySelector("#email").value;
+  // let subject = document.querySelector("#subject").value;
+  // let message = document.querySelector("#message").value;
+  // console.log(email)
+  // console.log('sdfvgbhnjk,l.')
+  // let data = {
+  //   email: email,
+  //   subject: subject,
+  //   message: message
+  // };
+
+  let csrftoken = getCookie('csrftoken');
+
+  btn.addEventListener('click',function(e){
+
+   e.preventDefault()
+   let email = document.querySelector("#email").value;
+   let subject = document.querySelector("#subject").value;
+   let message = document.querySelector("#message").value;
+
+   let data = {
+    email: email,
+    subject: subject,
+    message: message
+  };
+  console.log(email);
+  document.querySelector("#loading-icon").style.display = 'block';
+   fetch('send', {
+     method: 'POST',
+     body: JSON.stringify(data),
+     headers: {
+      //'Content-Type': 'application/json',
+      "X-CSRFToken": csrftoken
+       }
+   })
+   .then((res) => res.json())
+   .then(data => {
+    document.querySelector("#loading-icon").style.display = 'none'
+    document.querySelector("#toast-message-success").style.display = 'block'
+   })
+   .catch(err => {
+     console.log(err);
+     document.querySelector("#loading-icon").style.display = 'none'
+     document.querySelector("#toast-message-failed").style.display = 'block'
+   });
+  });
+  
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
     
 {% endblock body %}
-    
+

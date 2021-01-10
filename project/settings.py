@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'django_filters',
     'contact',
     'ckeditor',
+    'home',
+    'blog',
+    'taggit'
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -77,6 +80,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'project.wsgi.application'
+
+#AUTH_USER_MODEL = "blog.USER"
 
 
 # Database
@@ -137,6 +142,8 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR/"media"
 
+# Mail configuration 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'osamass9000@gmail.com'
 EMAIL_HOST_PASSWORD = 'Robot9000'

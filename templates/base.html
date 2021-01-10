@@ -28,6 +28,17 @@
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom_styles.css' %}">
+    <style>
+        .drop-link:hover{
+            background-color: #00D363;
+          
+        }
+        .page-link:active{
+            background-color: #00D363;
+            color: white;
+          
+        }  
+    </style>
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
 
@@ -55,7 +66,12 @@
                                         <ul id="navigation">
                                             <li><a href="/">home</a></li>
                                             <li><a href="{% url 'jobs:job_list'%}">Browse Job</a></li>
-                                    
+                                            <li><a href="{% url 'blogs:blogs_list'%}">blog <i class="ti-angle-down"></i></a>
+                                                <!-- <ul class="submenu">
+                                                    <li><a href="blog.html" class='drop-link'>blogs</a> </li>
+                                                    <li><a href="single-blog.html" class='drop-link'>single-blog</a></li>
+                                                </ul> -->
+                                            </li>
                                             <li><a href="{% url 'contact:conector'%}">Contact</a></li>
                                         </ul>
                                     </nav>
@@ -74,6 +90,9 @@
                                     {% else %}   
                                     <div class="phone_num d-none d-xl-block">
                                         <a href="{% url 'login' %}">Log in</a>
+                                    </div>
+                                    <div class="phone_num d-none d-xl-block">
+                                        <a href="{% url 'register:sign_up' %}">Sign Up</a>
                                     </div>
                                     {% endif %}
                                         
