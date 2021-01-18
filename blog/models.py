@@ -14,12 +14,14 @@ class PublishedManager(models.Manager):
     def get_queryset(self):
         return super(PublishedManager,self).get_queryset().filter(status='published')
 
-def upload_to(instance, filename, *args, **kwargs):
+def upload_post_image(instance, filename):
     extension = filename.split('.')[1]
     if instance.title:
-        return path + '%s.%s'%(instance.title, extension)
+        return '%s.%s'%(instance.title, extension)
     else:
-        return path + '%s.%s'%(instance.name, extension)
+        return 'posts/imags/%s.%s'%(instance.name, extension)
+
+
 
 
 class Category(models.Model):
@@ -37,7 +39,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=250, unique_for_date='publish')
 
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
-    image = models.ImageField(upload_to=upload_to(path='posts/covers'))
+    image = models.ImageField(upload_to=upload_post_image)
     body = RichTextField(blank=True, null=True)
     publish = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
@@ -47,7 +49,7 @@ class Post(models.Model):
     published = PublishedManager() # Our custom manager
     tags = TaggableManager()
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='posts')
-    likers = models.ManyToManyField(User, related_name='liked_posts', null=True)
+    likers = models.ManyToManyField(User, related_name='liked_posts', null=True, blank=True)
 
 
     class Meta:
@@ -57,7 +59,7 @@ class Post(models.Model):
        return self.title
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail',
+        return reverse('blogs:post_detail',
         args=[self.publish.year,
         self.publish.month,
         self.publish.day, self.slug])  
@@ -78,7 +80,7 @@ class Comment(models.Model):
       ordering = ('created',)
 
     def __str__(self):
-      return f'Comment by {self.author.name} on {self.post}'
+      return f'Comment by {self.commenter.username} on {self.post.title}'
 
 class CommentReply(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='comment_replys')
@@ -89,5 +91,5 @@ class CommentReply(models.Model):
     active = models.BooleanField(default=True)
 
     def __str__(self):
-      return f'Reply by {self.author.name} on {self.comment.body}'
+      return f'Reply by {self.comment_replier.username} on {self.comment.body}'
 

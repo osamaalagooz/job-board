@@ -10,15 +10,12 @@ JOB_CHOICES = (
 )
 
 # customize imges name on the file system.
-def upload_to(instance, filename, path):
+def upload_job_image(instance, filename):
     extension = filename.split('.')[1]
-    if instance.title:
-        return path + '%s.%s'%(instance.title, extension)
-    else:
-        return path + '%s.%s'%(instance.name, extension)
-# def upload_cv(instance, filename):
-#     extension = filename.split('.')[1]
-#     return 'candidaties/cvs/%s.%s'%(instance.name, extension)
+    return 'jobs/imags/%s.%s'%(instance.title, extension)
+    
+        
+
 class Job(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length = 150)
@@ -30,10 +27,9 @@ class Job(models.Model):
     vacancy = models.IntegerField(default=1)
     salary = models.IntegerField(default=1)
     experience = models.IntegerField(default=1)
-    image = models.ImageField(upload_to=upload_to(path='images/jobs/'))
-    likes_num = models.IntegerField()
-    likers = models.ManyToManyField(User, related_name='liked_jobs')
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    image = models.ImageField(upload_to=upload_job_image)
+    likers = models.ManyToManyField(User, related_name='liked_jobs', blank=True)
+    category = models.ForeignKey('Category',related_name='jobs', on_delete=models.SET_NULL, null=True)
     objects = models.Manager()
     tags = TaggableManager()
 
@@ -51,34 +47,10 @@ class Category(models.Model):
         """Unicode representation of MODELNAME."""
         return self.name
 
-class Company(models.Model):
-    name = models.CharField(max_length=150)
-    logo = models.ImageField(upload_to=upload_to(path='images/companies/'))
-    employee_num = models.IntegerField(default=0)
-    description = RichTextField(blank=True, null=True)
-    user =  models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
-    
-    def __str__(self):
-        """Unicode representation of MODELNAME."""
-        return self.name
 
 
-class Employee(models.Model):
 
-    applicant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length = 150)
-    email = models.EmailField(max_length=100)
-    website = models.URLField(max_length = 300)
-    cv = models.FileField(upload_to=upload_to(path='cvs/candidaties/'))
-    cover_letter = RichTextField(blank=True, null=True)
-    job = models.ForeignKey('Job', on_delete=models.CASCADE)
-    objects = models.Manager()
-    skills = TaggableManager()
 
-    def __str__(self):
-
-        return self.name
     
     
 

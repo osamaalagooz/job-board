@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=250)),
                 ('slug', models.SlugField(max_length=250, unique_for_date='publish')),
-                ('image', models.ImageField(upload_to=blog.models.upload_image)),
+                ('image', models.ImageField(upload_to=blog.models.upload_post_image)),
                 ('body', ckeditor.fields.RichTextField(blank=True, null=True)),
                 ('publish', models.DateTimeField(default=django.utils.timezone.now)),
                 ('created', models.DateTimeField(auto_now_add=True)),

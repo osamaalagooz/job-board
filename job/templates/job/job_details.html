@@ -66,20 +66,16 @@
                     <div class="apply_job_form white-bg">
                         <h4>Apply for the job</h4>
                       
-                                {# Display a form #}
+                               
 
                             <form method="post" class="form" enctype="multipart/form-data">
                                 <div class="row">
-                                {% csrf_token %}
-                                <div style="max-width: 100%;">{{form.media}}</div>
-                                {% bootstrap_form form %}
-                                {% buttons %}
+                                    {% csrf_token %}
                                 <div class="col-md-12">
                                     <div class="submit_btn">
                                         <button class="boxed-btn3 w-100" type="submit">Apply Now</button>
                                     </div>
                                 </div>
-                                {% endbuttons %}
                             </div> 
                             </div>
                             </form>

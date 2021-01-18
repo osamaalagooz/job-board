@@ -1,4 +1,5 @@
 {% load static %}
+{% load blog_tags %}
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -67,17 +68,20 @@
                                             <li><a href="/">home</a></li>
                                             <li><a href="{% url 'jobs:job_list'%}">Browse Job</a></li>
                                             <li><a href="{% url 'blogs:blogs_list'%}">blog <i class="ti-angle-down"></i></a>
-                                                <!-- <ul class="submenu">
-                                                    <li><a href="blog.html" class='drop-link'>blogs</a> </li>
-                                                    <li><a href="single-blog.html" class='drop-link'>single-blog</a></li>
-                                                </ul> -->
+                                                <ul class="submenu">
+                                                    
+                                                    {% for category in categories  %}
+                                                    <li><a href="{% url 'blogs:blogs_category_list' category.id %}" class='drop-link'>{{category.title|title}}</a> </li>   
+                                                    {% endfor %}
+                                                        
+                                                </ul>
                                             </li>
                                             <li><a href="{% url 'contact:conector'%}">Contact</a></li>
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-3 d-none d-lg-block">
+                            <div class="col-xl-3 col-lg-3 d-none d-lg-block" tyle="padding: 0px; width: 35%;">
                                 <div class="Appointment">
                                     
                                     {% if request.user.is_authenticated %}
@@ -92,7 +96,20 @@
                                         <a href="{% url 'login' %}">Log in</a>
                                     </div>
                                     <div class="phone_num d-none d-xl-block">
-                                        <a href="{% url 'register:sign_up' %}">Sign Up</a>
+                                       
+                                                <ul id="navigation" style="padding: 0px;width: 100%;">
+                                
+                                                    <li style="padding: 0px;width: 100%;"><a style="padding: 0px;" href="#">Sign Up<i style="padding: 0px;" class="ti-angle-down"></i></a>
+                                                        <ul class="submenu">
+                                                            
+                                                            <li><a class='drop-link' href="{% url 'register:sign_up_candidate' %}" > As a Candidate</a> </li>   
+                                                            <li><a class='drop-link' href="{% url 'register:sign_up_company' %}" > As a Company</a> </li>
+                                                                
+                                                        </ul>
+                                                    </li>
+
+                                                </ul>
+                                            
                                     </div>
                                     {% endif %}
                                         

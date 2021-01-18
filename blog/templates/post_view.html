@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load blog_tags %}
 
 
 {% block body %}
@@ -9,7 +10,7 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="bradcam_text">
-                    <h3>single blog</h3>
+                    <h3>{{post.title|title}}</h3>
                 </div>
             </div>
         </div>
@@ -24,52 +25,35 @@
           <div class="col-lg-8 posts-list">
              <div class="single-post">
                 <div class="feature-img">
-                   <img class="img-fluid" src="img/blog/single_blog_1.png" alt="">
+                   <img class="img-fluid" src="{{post.image.url}}" alt="post image" width="730px" height="365px">
                 </div>
                 <div class="blog_details">
-                   <h2>Second divided from form fish beast made every of seas
-                      all gathered us saying he our
+                   <h2>
+                      {{post.title|title}}
                    </h2>
                    <ul class="blog-info-link mt-3 mb-4">
                       <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
-                      <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
+                      <li><a href="#"><i class="fa fa-comments"></i> {{post.comments.count}} Comments</a></li>
                    </ul>
-                   <p class="excert">
-                      MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                      should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                      fraction of the camp price. However, who has the willpower
-                   </p>
                    <p>
-                      MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                      should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                      fraction of the camp price. However, who has the willpower to actually sit through a
-                      self-imposed MCSE training. who has the willpower to actually
+                      {{post.body|safe}}
                    </p>
-                   <div class="quote-wrapper">
-                      <div class="quotes">
-                         MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                         should have to spend money on boot camp when you can get the MCSE study materials yourself at
-                         a fraction of the camp price. However, who has the willpower to actually sit through a
-                         self-imposed MCSE training.
-                      </div>
-                   </div>
-                   <p>
-                      MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                      should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                      fraction of the camp price. However, who has the willpower
-                   </p>
-                   <p>
-                      MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                      should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                      fraction of the camp price. However, who has the willpower to actually sit through a
-                      self-imposed MCSE training. who has the willpower to actually
-                   </p>
+                   
                 </div>
              </div>
              <div class="navigation-top">
                 <div class="d-sm-flex justify-content-between text-center">
-                   <p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span> Lily and 4
-                      people like this</p>
+                   <p class="like-info">
+                     <!-- <span class="align-middle"><i class="fa fa-heart"></i></span> Lily and 4
+                     people like this -->
+                     {% if request.user in post.likers.all %}
+                        <a class="heart_mark"  style="margin-right: 0px;" onclick="likeIt(this)" data-set= '{{post.id}}'> <i id="heart{{post.id}}" class="fa fa-heart"></i> </a>
+                        <span id="counter{{post.id}}" data-id="{{post.id}}" style="margin-right: 10px;"> {{post.likers.count}} </span>
+                     {% else %}
+                        <a class="heart_mark" style="margin-right: 0px;" onclick="likeIt(this)" data-set= '{{post.id}}'> <i id="heart{{post.id}}" class="ti-heart"></i> </a>
+                        <span id="counter{{post.id}}" data-id="{{post.id}}" style="margin-right: 10px;" > {{post.likers.count}} </span>
+                     {% endif %}
+            </p>
                    <div class="col-sm-4 text-center my-2 my-sm-0">
                       <!-- <p class="comment-count"><span class="align-middle"><i class="fa fa-comment"></i></span> 06 Comments</p> -->
                    </div>
@@ -80,174 +64,89 @@
                       <li><a href="#"><i class="fa fa-behance"></i></a></li>
                    </ul>
                 </div>
-                <div class="navigation-area">
-                   <div class="row">
-                      <div
-                         class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
-                         <div class="thumb">
-                            <a href="#">
-                               <img class="img-fluid" src="img/post/preview.png" alt="">
-                            </a>
-                         </div>
-                         <div class="arrow">
-                            <a href="#">
-                               <span class="lnr text-white ti-arrow-left"></span>
-                            </a>
-                         </div>
-                         <div class="detials">
-                            <p>Prev Post</p>
-                            <a href="#">
-                               <h4>Space The Final Frontier</h4>
-                            </a>
-                         </div>
-                      </div>
-                      <div
-                         class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
-                         <div class="detials">
-                            <p>Next Post</p>
-                            <a href="#">
-                               <h4>Telescopes 101</h4>
-                            </a>
-                         </div>
-                         <div class="arrow">
-                            <a href="#">
-                               <span class="lnr text-white ti-arrow-right"></span>
-                            </a>
-                         </div>
-                         <div class="thumb">
-                            <a href="#">
-                               <img class="img-fluid" src="img/post/next.png" alt="">
-                            </a>
-                         </div>
-                      </div>
-                   </div>
-                </div>
+                
              </div>
              <div class="blog-author">
                 <div class="media align-items-center">
                    <img src="img/blog/author.png" alt="">
                    <div class="media-body">
                       <a href="#">
-                         <h4>Harvard milan</h4>
+                         <h4>{{post.author.first_name}}</h4>
                       </a>
                       <p>Second divided from form fish beast made. Every of seas all gathered use saying you're, he
                          our dominion twon Second divided from</p>
                    </div>
                 </div>
              </div>
-             <div class="comments-area">
-                <h4>05 Comments</h4>
+             <div id="area" class="comments-area">
+                <h4>{{post.comments.count}} Comments</h4>
+                {% for comment in comments %}
                 <div class="comment-list">
-                   <div class="single-comment justify-content-between d-flex">
-                      <div class="user justify-content-between d-flex">
-                         <div class="thumb">
-                            <img src="img/comment/comment_1.png" alt="">
-                         </div>
-                         <div class="desc">
-                            <p class="comment">
-                               Multiply sea night grass fourth day sea lesser rule open subdue female fill which them
-                               Blessed, give fill lesser bearing multiply sea night grass fourth day sea lesser
-                            </p>
-                            <div class="d-flex justify-content-between">
-                               <div class="d-flex align-items-center">
-                                  <h5>
-                                     <a href="#">Emilly Blunt</a>
-                                  </h5>
-                                  <p class="date">December 4, 2017 at 3:12 pm </p>
-                               </div>
-                               <div class="reply-btn">
-                                  <a href="#" class="btn-reply text-uppercase">reply</a>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                   </div>
-                </div>
-                <div class="comment-list">
-                   <div class="single-comment justify-content-between d-flex">
-                      <div class="user justify-content-between d-flex">
-                         <div class="thumb">
-                            <img src="img/comment/comment_2.png" alt="">
-                         </div>
-                         <div class="desc">
-                            <p class="comment">
-                               Multiply sea night grass fourth day sea lesser rule open subdue female fill which them
-                               Blessed, give fill lesser bearing multiply sea night grass fourth day sea lesser
-                            </p>
-                            <div class="d-flex justify-content-between">
-                               <div class="d-flex align-items-center">
-                                  <h5>
-                                     <a href="#">Emilly Blunt</a>
-                                  </h5>
-                                  <p class="date">December 4, 2017 at 3:12 pm </p>
-                               </div>
-                               <div class="reply-btn">
-                                  <a href="#" class="btn-reply text-uppercase">reply</a>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                   </div>
-                </div>
-                <div class="comment-list">
-                   <div class="single-comment justify-content-between d-flex">
-                      <div class="user justify-content-between d-flex">
-                         <div class="thumb">
-                            <img src="img/comment/comment_3.png" alt="">
-                         </div>
-                         <div class="desc">
-                            <p class="comment">
-                               Multiply sea night grass fourth day sea lesser rule open subdue female fill which them
-                               Blessed, give fill lesser bearing multiply sea night grass fourth day sea lesser
-                            </p>
-                            <div class="d-flex justify-content-between">
-                               <div class="d-flex align-items-center">
-                                  <h5>
-                                     <a href="#">Emilly Blunt</a>
-                                  </h5>
-                                  <p class="date">December 4, 2017 at 3:12 pm </p>
-                               </div>
-                               <div class="reply-btn">
-                                  <a href="#" class="btn-reply text-uppercase">reply</a>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                   </div>
-                </div>
+                  <div class="single-comment justify-content-between d-flex">
+                     <div class="user justify-content-between d-flex">
+                        <div class="thumb">
+                           <img src="{{comment.commenter.candidate.image.url}}" alt="img">
+                        </div>
+                        <div class="desc">
+                           <p class="comment">
+                             {{comment.body}}
+                           </p>
+                           <div class="d-flex justify-content-between">
+                              <div class="d-flex align-items-center">
+                                 <h5>
+                                    <a href="#">{{comment.commenter.first_name}}</a>
+                                 </h5>
+                                 <p class="date">{{comment.created|time_ago}}</p>
+                              </div>
+                              <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#demo">Reply</button>
+                                 <div id="demo" class="collapse">
+                                    <form action="/action_page.php" method="POST">
+                                       <div class="form-group">
+                                          <textarea class="form-control w-100" name="reply" id="reply" cols="30" rows="5"
+                                          placeholder="Write Comment"></textarea>
+                                       
+                                       <button type="submit" class="btn btn-success">Submit</button>
+                                       </div>
+                                    </form>
+                                 </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+                {% endfor %}
+               
              </div>
              <div class="comment-form">
-                <h4>Leave a Reply</h4>
-                <form class="form-contact comment_form" action="#" id="commentForm">
+                <form class="form-contact comment_form" method="POST" id="commentForm">
                    <div class="row">
                       <div class="col-12">
                          <div class="form-group">
-                            <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9"
-                               placeholder="Write Comment"></textarea>
+                           <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="6"
+                           placeholder="Write Comment"></textarea>
                          </div>
                       </div>
-                      <div class="col-sm-6">
-                         <div class="form-group">
-                            <input class="form-control" name="name" id="name" type="text" placeholder="Name">
-                         </div>
+                      <div id='toast-message-success' class="alert alert-success alert-dismissible" role="alert" style="width: 300px; display: none;" >
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        Message successfully sent !
+                        
                       </div>
-                      <div class="col-sm-6">
-                         <div class="form-group">
-                            <input class="form-control" name="email" id="email" type="email" placeholder="Email">
-                         </div>
+                      <div id='toast-message-failed' class="alert alert-danger alert-dismissible" role="alert" style="width: 300px; display: none;" >
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        Oops, there is some thing wrong happened!
+                        
                       </div>
-                      <div class="col-12">
-                         <div class="form-group">
-                            <input class="form-control" name="website" id="website" type="text" placeholder="Website">
-                         </div>
+                      <div id="loading-icon" style="text-align: center; display: none;">
+                        <i class="fa fa-circle-o-notch fa-spin" style="font-size:30px; width: auto;"></i>
                       </div>
-                   </div>
+
                    <div class="form-group">
-                      <button type="submit" class="button button-contactForm btn_1 boxed-btn">Send Message</button>
+                      <button type="submit" id="comment-btn" data-id="{{post.id}}" class="button button-contactForm btn_1 boxed-btn">submit</button>
                    </div>
                 </form>
              </div>
           </div>
+         </div>
           <div class="col-lg-4">
              <div class="blog_right_sidebar">
                 <aside class="single_sidebar_widget search_widget">
@@ -268,147 +167,47 @@
                 <aside class="single_sidebar_widget post_category_widget">
                    <h4 class="widget_title">Category</h4>
                    <ul class="list cat-list">
-                      <li>
+                     {% for category in categories %}
+                     <li>
                          <a href="#" class="d-flex">
-                            <p>Resaurant food</p>
-                            <p>(37)</p>
+                             <p>{{category.title}}</p>
+                             <p>({{category.posts.count}})</p>
                          </a>
-                      </li>
-                      <li>
-                         <a href="#" class="d-flex">
-                            <p>Travel news</p>
-                            <p>(10)</p>
-                         </a>
-                      </li>
-                      <li>
-                         <a href="#" class="d-flex">
-                            <p>Modern technology</p>
-                            <p>(03)</p>
-                         </a>
-                      </li>
-                      <li>
-                         <a href="#" class="d-flex">
-                            <p>Product</p>
-                            <p>(11)</p>
-                         </a>
-                      </li>
-                      <li>
-                         <a href="#" class="d-flex">
-                            <p>Inspiration</p>
-                            <p>(21)</p>
-                         </a>
-                      </li>
-                      <li>
-                         <a href="#" class="d-flex">
-                            <p>Health Care</p>
-                            <p>(21)</p>
-                         </a>
-                      </li>
+                     </li> 
+                     {% endfor %}
                    </ul>
                 </aside>
                 <aside class="single_sidebar_widget popular_post_widget">
-                   <h3 class="widget_title">Recent Post</h3>
-                   <div class="media post_item">
-                      <img src="img/post/post_1.png" alt="post">
-                      <div class="media-body">
-                         <a href="single-blog.html">
-                            <h3>From life was you fish...</h3>
-                         </a>
-                         <p>January 12, 2019</p>
-                      </div>
-                   </div>
-                   <div class="media post_item">
-                      <img src="img/post/post_2.png" alt="post">
-                      <div class="media-body">
-                         <a href="single-blog.html">
-                            <h3>The Amazing Hubble</h3>
-                         </a>
-                         <p>02 Hours ago</p>
-                      </div>
-                   </div>
-                   <div class="media post_item">
-                      <img src="img/post/post_3.png" alt="post">
-                      <div class="media-body">
-                         <a href="single-blog.html">
-                            <h3>Astronomy Or Astrology</h3>
-                         </a>
-                         <p>03 Hours ago</p>
-                      </div>
-                   </div>
-                   <div class="media post_item">
-                      <img src="img/post/post_4.png" alt="post">
-                      <div class="media-body">
-                         <a href="single-blog.html">
-                            <h3>Asteroids telescope</h3>
-                         </a>
-                         <p>01 Hours ago</p>
-                      </div>
-                   </div>
+                   <h3 class="widget_title">Recent Posts</h3>
+                   {% show_recent_posts 5%}
+                   
                 </aside>
                 <aside class="single_sidebar_widget tag_cloud_widget">
                    <h4 class="widget_title">Tag Clouds</h4>
                    <ul class="list">
+                      {% for tag in tags %}
                       <li>
-                         <a href="#">project</a>
-                      </li>
-                      <li>
-                         <a href="#">love</a>
-                      </li>
-                      <li>
-                         <a href="#">technology</a>
-                      </li>
-                      <li>
-                         <a href="#">travel</a>
-                      </li>
-                      <li>
-                         <a href="#">restaurant</a>
-                      </li>
-                      <li>
-                         <a href="#">life style</a>
-                      </li>
-                      <li>
-                         <a href="#">design</a>
-                      </li>
-                      <li>
-                         <a href="#">illustration</a>
-                      </li>
+                        <a href="#">tag</a>
+                     </li>
+                      {% endfor %}
+                      
+                      
                    </ul>
                 </aside>
-                <aside class="single_sidebar_widget instagram_feeds">
-                   <h4 class="widget_title">Instagram Feeds</h4>
-                   <ul class="instagram_row flex-wrap">
-                      <li>
-                         <a href="#">
-                            <img class="img-fluid" src="img/post/post_5.png" alt="">
+                <aside class="single_sidebar_widget popular_post_widget">
+                  <h3 class="widget_title">Similar Posts</h3>
+                  {% for post in similar_posts  %}
+                  <div class="media post_item">
+                     <img src="{{post.image.url}}" alt="post" width="80px" height="80px">
+                     <div class="media-body">
+                         <a href="{{post.get_absolute_url}}">
+                             <h3>{{post.title}}</h3>
                          </a>
-                      </li>
-                      <li>
-                         <a href="#">
-                            <img class="img-fluid" src="img/post/post_6.png" alt="">
-                         </a>
-                      </li>
-                      <li>
-                         <a href="#">
-                            <img class="img-fluid" src="img/post/post_7.png" alt="">
-                         </a>
-                      </li>
-                      <li>
-                         <a href="#">
-                            <img class="img-fluid" src="img/post/post_8.png" alt="">
-                         </a>
-                      </li>
-                      <li>
-                         <a href="#">
-                            <img class="img-fluid" src="img/post/post_9.png" alt="">
-                         </a>
-                      </li>
-                      <li>
-                         <a href="#">
-                            <img class="img-fluid" src="img/post/post_10.png" alt="">
-                         </a>
-                      </li>
-                   </ul>
-                </aside>
+                         <p>{{post.publish|time_ago}}</p>
+                     </div>
+                 </div>
+                  {% endfor %}
+              </aside>
                 <aside class="single_sidebar_widget newsletter_widget">
                    <h4 class="widget_title">Newsletter</h4>
                    <form action="#">
@@ -426,6 +225,120 @@
     </div>
  </section>
  <!--================ Blog Area end =================-->
+ <script>
+   let btn = document.querySelector('#comment-btn')
+   let postId = btn.getAttribute('data-id')
+   let csrftoken = getCookie('csrftoken');
+   console.log(postId)
+
+   btn.addEventListener('click', (e) => {
+      e.preventDefault()
+      let commentBody = document.querySelector('#comment').value
+      let commentsAria = document.querySelector("#area")
+      console.log(commentBody)
+      let data = {
+         body: commentBody
+      }
+
+      document.querySelector("#loading-icon").style.display = 'block';
+
+      fetch(`comment`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+         //'Content-Type': 'application/json',
+         "X-CSRFToken": csrftoken
+         }
+      })
+      .then((res) => res.json())
+      .then(data => {
+      document.querySelector("#loading-icon").style.display = 'none'
+      commentsAria.innerHTML += ` <div class="comment-list">
+                  <div class="single-comment justify-content-between d-flex">
+                     <div class="user justify-content-between d-flex">
+                        <div class="thumb">
+                           <img src="{{user.candidate.image.url}}" alt="img">
+                        </div>
+                        <div class="desc">
+                           <p class="comment">
+                           ${commentBody}
+                           </p>
+                           <div class="d-flex justify-content-between">
+                              <div class="d-flex align-items-center">
+                                 <h5>
+                                    <a href="#">{{user.first_name}}</a>
+                                 </h5>
+                                 <p class="date">just now</p>
+                              </div>
+                              <button type="button" class="btn btn-success" data-toggle="collapse" data-target="#demo">Reply</button>
+                                 <div id="demo" class="collapse">
+                                    <form action="/action_page.php" method="POST">
+                                       <div class="form-group">
+                                          {% csrf_token %}
+                                          {% bootstrap_form reply_form %}
+                                       
+                                       <button type="submit" class="btn btn-success">Submit</button>
+                                       </div>
+                                    </form>
+                                 </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>`
+      console.log(data)
+      //document.querySelector("#toast-message-success").style.display = 'block'
+
+      })
+      .catch(err => {
+      console.log(err);
+      document.querySelector("#loading-icon").style.display = 'none'
+      document.querySelector("#toast-message-failed").style.display = 'block'
+      });
+
+   })
+   function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+};
+function likeIt(post) {
+            var postId = post.getAttribute("data-set");
+            console.log(postId)
+            fetch(`${postId}/like`)
+            .then(da => da.json())
+            .then(data => {
+               let count = document.getElementById(`counter${postId}`).innerHTML;
+               let num = parseInt(count)
+               let heart = document.getElementById(`heart${postId}`).classList
+               console.log(heart)
+               if (heart.contains('ti-heart')){
+
+                  heart.remove('ti-heart')
+                  heart.add('fa', 'fa-heart')
+                  document.getElementById(`counter${postId}`).innerHTML = num + 1 
+               } else {
+                  heart.remove('fa', 'fa-heart')
+                  heart.add('ti-heart')
+                  document.getElementById(`counter${postId}`).innerHTML = num - 1
+               }
+            
+               
+               console.log(data)})
+            .catch(err => console.log(err))
+            
+         }
+ </script>
 
 {% endblock body %}
     

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load blog_tags %}
 
 
 {% block body %}
@@ -21,33 +22,37 @@
         <div class="row">
             <div class="col-lg-8 mb-5 mb-lg-0">
                 <div class="blog_left_sidebar">
+                    {% if posts %}
                     
-                    {% for post in posts %}
-                    <article class="blog_item">
-                        <div class="blog_item_img">
-                            <img class="card-img rounded-0" src="{{post.image.url}}" alt="post_image" width="750px" height="365px">
-                            <a href="#" class="blog_item_date">
-                                <h3>{{post.publish.day}}</h3>
-                                <p>{{ post.publish.month|date:'M' }}</p>
-                            </a>
-                        </div>
+                        {% for post in posts %}
+                        <article class="blog_item">
+                            <div class="blog_item_img">
+                                <img class="card-img rounded-0" src="{{post.image.url}}" alt="post_image" width="750px" height="365px">
+                                <a href="#" class="blog_item_date">
+                                    <h3>{{post.publish.day}}</h3>
+                                    <p>{{ post.publish|date:'M' }}</p>
+                                </a>
+                            </div>
 
-                        <div class="blog_details">
-                            <a class="d-inline-block" href="{{post.get_absolute_url}}">
-                                <h2>{{post.title}}</h2>
-                            </a>
-                            <p>{{post.body|safe|truncatewords:50}}</p>
-                            <ul class="blog-info-link">
-                                <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
-                                <li><a href="#"><i class="fa fa-comments"></i> {{post.post_comments.count}} Comments</a></li>
-                            </ul>
-                        </div>
-                    </article>
+                            <div class="blog_details">
+                                <a class="d-inline-block" href="{{post.get_absolute_url}}">
+                                    <h2>{{post.title}}</h2>
+                                </a>
+                                <p>{{post.body|safe|truncatewords:50}}</p>
+                                <ul class="blog-info-link">
+                                    <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
+                                    <li><a href="#"><i class="fa fa-comments"></i> {{post.post_comments.count}} Comments</a></li>
+                                </ul>
+                            </div>
+                        </article>
+                        {% endfor %}    
+                    {% else %}
+                    <div class="alert alert-primary" role="alert">
+                         Sorry, but there is no Posts for this category, yet!<a href="{url 'home'}" class="alert-link">Go Home Page</a>
+                      </div>     
+                    {% endif %} 
 
-                    {% endfor %}
-                        
 
-                    
                     {% if posts.has_other_pages %}
  
                     <nav class="blog-pagination justify-content-center d-flex">
@@ -64,7 +69,8 @@
                             <li class="page-item">
                                 <a href="?page={{i}}" class="page-link">{{i}}</a>
                             </li>
-                            {%endfor%}
+                            {% endfor %}
+
                             {% if posts.has_next %}
                             <li class="page-item">
                                 <a href="?page={{ posts.next_page_number }}" class="page-link" aria-label="Next">
@@ -103,83 +109,30 @@
                             {% for category in categories %}
                             <li>
                                 <a href="#" class="d-flex">
-                                    <p>category.title</p>
-                                    <p>category.posts.count</p>
+                                    <p>{{category.title}}</p>
+                                    <p>({{category.posts.count}})</p>
                                 </a>
                             </li> 
                             {% endfor %}
 
-                            
                         </ul>
                     </aside>
 
                     <aside class="single_sidebar_widget popular_post_widget">
                         <h3 class="widget_title">Recent Post</h3>
-                        <div class="media post_item">
-                            <img src="img/post/post_1.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>From life was you fish...</h3>
-                                </a>
-                                <p>January 12, 2019</p>
-                            </div>
-                        </div>
-                        <div class="media post_item">
-                            <img src="img/post/post_2.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>The Amazing Hubble</h3>
-                                </a>
-                                <p>02 Hours ago</p>
-                            </div>
-                        </div>
-                        <div class="media post_item">
-                            <img src="img/post/post_3.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>Astronomy Or Astrology</h3>
-                                </a>
-                                <p>03 Hours ago</p>
-                            </div>
-                        </div>
-                        <div class="media post_item">
-                            <img src="img/post/post_4.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>Asteroids telescope</h3>
-                                </a>
-                                <p>01 Hours ago</p>
-                            </div>
-                        </div>
+                         {% show_recent_posts 5 %}
+                        
                     </aside>
                     <aside class="single_sidebar_widget tag_cloud_widget">
                         <h4 class="widget_title">Tag Clouds</h4>
                         <ul class="list">
                             
-                            {% for tag in post.tags.names %}
-                            <li>
-                                <p>{{tag}}</p>
-                            </li>
-                            {% endfor %}
                                     
                         </ul>
                     </aside>
 
 
-                    <aside class="single_sidebar_widget popular_post_widget">
-                        <h3 class="widget_title">Similar Posts</h3>
-                        
-                        <div class="media post_item">
-                            <img src="img/post/post_1.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>From life was you fish...</h3>
-                                </a>
-                                <p>January 12, 2019</p>
-                            </div>
-                        </div>
-                        
-                    </aside>
+                    
 
 
                     <aside class="single_sidebar_widget newsletter_widget">

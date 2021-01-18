@@ -1,11 +1,11 @@
 from django import forms 
-from .models import Employee, Job
+from .models import  Job
 
-class EmployeeForm(forms.ModelForm):
+# class EmployeeForm(forms.ModelForm):
 
-    class Meta:
-       model = Employee
-       fields = ["name", "email", "website", "cv", "cover_letter"]
+#     class Meta:
+#        model = Employee
+#        fields = ["name", "email", "website", "cv", "cover_letter"]
 
 class JobForm(forms.ModelForm):
     class Meta:
