@@ -25,7 +25,7 @@ SECRET_KEY = '^#e^%6rrrfd#fr4bdl(%u(j5$w3cjiq=4rs@v1o2&zyo+!39)!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -46,10 +46,13 @@ INSTALLED_APPS = [
     'ckeditor',
     'home',
     'blog',
-    'taggit'
+    'taggit',
+    'taggit_templatetags2',
+    'ckeditor_uploader',
 ]
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_IMAGE_BACKEND= "pillow"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

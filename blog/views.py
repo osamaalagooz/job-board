@@ -16,12 +16,11 @@ def post_list_view(request, id=None):
         category = Category.objects.get(id=id)
         posts = category.posts.all()
         
-        print(type(posts))
     else:    
         posts =  Post.published.all()
 
     categories = Category.objects.all()
-    paginator = Paginator(posts, 1)
+    paginator = Paginator(posts, 5)
     page = request.GET.get('page')
 
     try:
@@ -33,21 +32,7 @@ def post_list_view(request, id=None):
 
     return render(request, 'posts_list.html', {'posts': posts, 'categories': categories})
 
-# def post_list_view(request):
 
-#     posts =  Post.published.all()
-#     categories = Category.objects.all()
-#     paginator = Paginator(posts, 1)
-#     page = request.GET.get('page')
-
-#     try:
-#         posts = paginator.page(page)
-#     except PageNotAnInteger:
-#         posts = paginator.page(1)  
-#     except EmptyPage:
-#         posts  = paginator.page(paginator.num_pages)     
-
-#     return render(request, 'posts_list.html', {'posts': posts, 'categories': categories})
 def post_view(request, id):
     
     post = Post.objects.get(id=id)
@@ -62,16 +47,15 @@ def post_detail(request, year, month, day, post):
     print(post_tags_names.all())
     similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
     similar_posts = similar_posts.annotate(same_tags=Count('tags')).order_by('-same_tags', '-publish')[:4]
-    #return render(request, 'post_view.html',{'post': post, 'similar_posts': similar_posts})        
+           
 
     return render(request, 'post_view.html',{'post': post,
                                                      'comments': comments,
                                                      'reply_form': reply_form,
-                                                     #'new_comment': new_comment,
                                                      'similar_posts': similar_posts,
                                                      'tags': post_tags_names}
                                                      )        
-
+@login_required
 def comment_api(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published', publish__year=year, publish__month=month, publish__day=day)
     

@@ -185,7 +185,7 @@
             </div>
             <div class="col-lg-6 col-md-6">
                 <div class="brouse_job text-right">
-                    <a href="jobs.html" class="boxed-btn4">Browse More Job</a>
+                    <a href="{% url 'jobs:job_list'%}" class="boxed-btn4">Browse More Job</a>
                 </div>
             </div>
         </div>
@@ -195,10 +195,10 @@
             <div class="col-lg-4 col-xl-3 col-md-6">
                 <div class="single_company">
                     <div class="thumb">
-                        <img src="{% company.logo.url %}" alt="">
+                        <img src="{{ company.logo.url }}" alt="">
                     </div>
                     <a href="jobs.html"><h3>{{company.user.username}}</h3></a>
-                    <p> <span>50</span> Available position</p>
+                    <p> <span>{{company.user.jobs.count}}</span> Available position</p>
                 </div>
             </div>
            
@@ -217,14 +217,14 @@
                 <div class="searching_text">
                     <h3>Looking for a Job?</h3>
                     <p>We provide online instant cash loans with quick approval </p>
-                    <a href="#" class="boxed-btn3">Browse Job</a>
+                    <a href="{% url 'jobs:job_list'%}" class="boxed-btn3">Browse Job</a>
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1 col-md-6">
                 <div class="searching_text">
                     <h3>Looking for a Expert?</h3>
                     <p>We provide online instant cash loans with quick approval </p>
-                    <a href="#" class="boxed-btn3">Post a Job</a>
+                    <a href="{% url 'jobs:jobEditor' %}" class="boxed-btn3">Post a Job</a>
                 </div>
             </div>
         </div>
@@ -248,7 +248,7 @@
                             <div class="col-lg-11">
                                 <div class="single_testmonial d-flex align-items-center">
                                     <div class="thumb">
-                                        <img src="img/testmonial/author.png" alt="">
+                                        <img src="{% static 'img/testmonial/author.png'%}" alt="">
                                         <div class="quote_icon">
                                             <i class="Flaticon flaticon-quote"></i>
                                         </div>
@@ -266,7 +266,7 @@
                             <div class="col-lg-11">
                                 <div class="single_testmonial d-flex align-items-center">
                                     <div class="thumb">
-                                        <img src="img/testmonial/author.png" alt="">
+                                        <img src="{% static 'img/testmonial/author.png'%}" alt="">
                                         <div class="quote_icon">
                                             <i class=" Flaticon flaticon-quote"></i>
                                         </div>
@@ -284,7 +284,7 @@
                             <div class="col-lg-11">
                                 <div class="single_testmonial d-flex align-items-center">
                                     <div class="thumb">
-                                        <img src="img/testmonial/author.png" alt="">
+                                        <img src="{% static 'img/testmonial/author.png'%}" alt="">
                                         <div class="quote_icon">
                                             <i class="Flaticon flaticon-quote"></i>
                                         </div>

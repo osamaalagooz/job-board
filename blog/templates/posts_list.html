@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 {% load blog_tags %}
+{% load taggit_templatetags2_tags %}
 
 
 {% block body %}
@@ -40,7 +41,7 @@
                                 </a>
                                 <p>{{post.body|safe|truncatewords:50}}</p>
                                 <ul class="blog-info-link">
-                                    <li><a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>{% get_tags_for_object post as "tags" %} {%for tag in tags %} {{tag}}{%endfor%}</a></li>
                                     <li><a href="#"><i class="fa fa-comments"></i> {{post.post_comments.count}} Comments</a></li>
                                 </ul>
                             </div>
@@ -126,8 +127,14 @@
                     <aside class="single_sidebar_widget tag_cloud_widget">
                         <h4 class="widget_title">Tag Clouds</h4>
                         <ul class="list">
+                            {% get_taglist as tags for 'blog' %} 
+                            {%for tag in tags %} 
+                            <li>
+                                <a href="#">{{tag}}</a>
+                             </li>   
                             
-                                    
+                            {%endfor%}
+                            
                         </ul>
                     </aside>
 
