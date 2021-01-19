@@ -1,8 +1,10 @@
+
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from django.conf import settings
 from taggit.managers import TaggableManager
+#from .views import Company 
 # Create your models here.
 JOB_CHOICES = (
     ("Part Time","Part Time"),
@@ -17,11 +19,10 @@ def upload_job_image(instance, filename):
         
 
 class Job(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, related_name="jobs", on_delete=models.CASCADE)
     title = models.CharField(max_length = 150)
     #description = models.TextField(max_length = 1000)
     description = RichTextField(blank=True, null=True)
-    company = models.CharField(max_length= 50)
     job_type = models.CharField(max_length = 150, choices=JOB_CHOICES)
     published_at = models.DateTimeField(auto_now=True)
     vacancy = models.IntegerField(default=1)
@@ -29,9 +30,9 @@ class Job(models.Model):
     experience = models.IntegerField(default=1)
     image = models.ImageField(upload_to=upload_job_image)
     likers = models.ManyToManyField(User, related_name='liked_jobs', blank=True)
-    category = models.ForeignKey('Category',related_name='jobs', on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey('Category', related_name='jobs', on_delete=models.SET_NULL, null=True)
     objects = models.Manager()
-    tags = TaggableManager()
+    skills = TaggableManager()
 
     def __str__(self):
         """Unicode representation of MODELNAME."""
@@ -46,6 +47,8 @@ class Category(models.Model):
     def __str__(self):
         """Unicode representation of MODELNAME."""
         return self.name
+
+       
 
 
 

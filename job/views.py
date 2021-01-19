@@ -1,13 +1,13 @@
-from accounts.models import Profile
+from accounts.models import Profile, Company
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from .models import Job
+from .models import Category, Job
 from .forms import  JobForm
 from django.urls import reverse 
 from django.contrib.auth.decorators import login_required
 from .filters import JobFilter
-from accounts.forms import EmployeeForm, ProfileForm, UserForm2
+from accounts.forms import EmployeeForm, ProfileForm
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -96,6 +96,21 @@ def add_job(request):
     }       
     
     return render(request, "job/add_job.html", context)
+
+def category_jobs(request, id):
+    category = Category.objects.get(id=id)
+    jobs = category.jobs
+    my_filter = JobFilter(data=request.GET, queryset=jobs)
+    jobs_list = my_filter.qs
+
+    paginator = Paginator(jobs_list, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        "jobs_list": page_obj,
+        'my_filter': my_filter
+    }
+    return render(request, "job/job_list.html", context)
 
 @login_required
 def like_btn(request, id):

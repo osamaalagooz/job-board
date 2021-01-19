@@ -41,7 +41,6 @@ class City(models.Model):
         return self.name
     
 class Company(models.Model):
-
     logo = models.ImageField(upload_to=upload_company_image, null=True, blank=True)
     employee_num = models.IntegerField(default=0)
     description = RichTextField(blank=True, null=True)
@@ -50,18 +49,19 @@ class Company(models.Model):
     
     def __str__(self):
         """Unicode representation of MODELNAME."""
-        return self.user.username   
+        return self.user.first_name
 
 class Employee(models.Model):
+    job_title = models.CharField(max_length = 13)
+    bio = models.TextField(max_length=500)
     user =  models.OneToOneField(User, on_delete=models.CASCADE, related_name='candidate')
     image = models.ImageField(upload_to=upload_image, null=True, blank=True)
     website = models.URLField(max_length = 300)
     cv = models.FileField(upload_to=upload_cv, null=True, blank=True)
-    cover_letter = RichTextField(blank=True, null=True)
+    summary = RichTextField(blank=True, null=True)
     jobs = models.ManyToManyField(Job, related_name='candidaties', blank=True)
     objects = models.Manager()
     skills = TaggableManager()
-
     def __str__(self):
         return self.user.username
     
